@@ -1,4 +1,9 @@
 package com.codeclan.example.bandAPI.repositories;
 
-public interface SongRepository {
+import com.codeclan.example.bandAPI.models.Song;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface SongRepository extends JpaRepository<Song, Long> {
 }
