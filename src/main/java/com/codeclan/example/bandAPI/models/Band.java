@@ -48,6 +48,8 @@ public class Band {
         this.albums = new ArrayList<Album>();
     }
 
+    public Band(){}
+
     public String getName() {
         return name;
     }
