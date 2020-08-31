@@ -1,7 +1,8 @@
 package com.codeclan.example.bandAPI.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.tools.javah.Gen;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
@@ -21,18 +22,14 @@ public class Song {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn (name = "album_id", nullable = false)
-    @JsonIgnoreProperties({"songs"})
     private Album album;
 
-    @ManyToOne
-    @JoinColumn ( name = "band_id", nullable = false)
-    @JsonIgnoreProperties ({"songs"})
-    private Band band;
-
-    public Song(String songName, double length) {
+    public Song(String songName, double length, Album album) {
         this.songName = songName;
         this.length = length;
+        this.album = album;
     }
 
     public Song(){}
@@ -69,11 +66,4 @@ public class Song {
         this.album = album;
     }
 
-    public Band getBand() {
-        return band;
-    }
-
-    public void setBand(Band band) {
-        this.band = band;
-    }
 }

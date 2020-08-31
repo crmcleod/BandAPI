@@ -1,6 +1,6 @@
 package com.codeclan.example.bandAPI.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -24,32 +24,24 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "album", fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"albums"})
+    @OneToMany(mappedBy = "album", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Song> songs;
 
 
     @ManyToOne
+//    @JsonIgnoreProperties({"albums"})
+//    @JsonManagedReference
+    @JsonBackReference
     @JoinColumn (name = "band_id", nullable = false)
-    @JsonIgnoreProperties({"albums"})
     private Band band;
 
-    @ManyToMany
-    @JsonIgnoreProperties({"albums"})
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JoinTable(
-            name = "albums_members",
-            joinColumns = {@JoinColumn(name = "album_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn (name = "member_id", nullable = false, updatable = false)}
-    )
-    private List<Member> members;
 
     public Album(String albumName, int releaseYear, String type, Band band) {
         this.albumName = albumName;
         this.releaseYear = releaseYear;
         this.type = type;
         this.band = band;
-        this.members = new ArrayList<Member>();
         this.songs = new ArrayList<Song>();
     }
 
@@ -95,13 +87,6 @@ public class Album {
         this.band = band;
     }
 
-    public List<Member> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<Member> members) {
-        this.members = members;
-    }
 
     public List<Song> getSongs() {
         return songs;
@@ -110,8 +95,6 @@ public class Album {
     public void setSongs(List<Song> songs) {
         this.songs = songs;
     }
-
-    public void addMember(Member member) {this.members.add(member); }
 
     public void addSong(Song song) {this.songs.add(song);}
 }

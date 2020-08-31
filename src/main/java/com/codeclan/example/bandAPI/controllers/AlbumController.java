@@ -18,7 +18,9 @@ public class AlbumController {
     AlbumRepository albumRepository;
 
     @GetMapping(value = "/albums")
-    public ResponseEntity<List<Album>> getAllAlbums(){
+    public ResponseEntity<List<Album>> getAllAlbums(
+            @RequestParam(name="albumName", required = false) String albumName
+    ){
         return new ResponseEntity<>(albumRepository.findAll(), HttpStatus.OK);
     }
 

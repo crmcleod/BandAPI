@@ -1,7 +1,7 @@
 package com.codeclan.example.bandAPI.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.tools.javah.Gen;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -29,19 +29,10 @@ public class Member {
     private Long id;
 
     @ManyToOne
+//    @JsonIgnoreProperties({"members"})
+    @JsonBackReference
     @JoinColumn (name = "band_id", nullable = false)
-    @JsonIgnoreProperties({"members"})
     private Band band;
-
-    @ManyToMany
-    @JsonIgnoreProperties({"members"})
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JoinTable(
-            name = "members_albums",
-            joinColumns = {@JoinColumn(name = "member_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn (name = "album_id", nullable = false, updatable = false)}
-    )
-    private List<Album> albums;
 
     public Member(String firstName, String lastName, String instrument, String yearsActive, Band band) {
         this.firstName = firstName;
@@ -49,7 +40,6 @@ public class Member {
         this.instrument = instrument;
         this.yearsActive = yearsActive;
         this.band = band;
-        this.albums = new ArrayList<Album>();
     }
 
     public Member(){}
@@ -102,13 +92,4 @@ public class Member {
         this.band = band;
     }
 
-    public List<Album> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<Album> albums) {
-        this.albums = albums;
-    }
-
-    public void addAlbum(Album album) {this.albums.add(album);}
 }

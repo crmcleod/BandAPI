@@ -1,6 +1,8 @@
 package com.codeclan.example.bandAPI.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
 
@@ -22,28 +24,18 @@ public class Band {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "band", fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"bands"})
-    private List<Song> songs;
-
-    @OneToMany(mappedBy = "band", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "band", fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"bands"})
     private List<Album> albums;
 
-    @ManyToMany
-    @JsonIgnoreProperties({"bands"})
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JoinTable(
-            name = "bands_members",
-            joinColumns = {@JoinColumn(name = "band_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn (name = "member_id", nullable = false, updatable = false)}
-    )
+    @OneToMany(mappedBy = "band", fetch = FetchType.LAZY)
+//    @JsonIgnoreProperties({"bands"})
+    @JsonManagedReference
     private List<Member> members;
 
     public Band(String name, int yearEstablished) {
         this.name = name;
         this.yearEstablished = yearEstablished;
-        this.songs = new ArrayList<Song>();
         this.members = new ArrayList<Member>();
         this.albums = new ArrayList<Album>();
     }
@@ -74,14 +66,6 @@ public class Band {
         this.id = id;
     }
 
-    public List<Song> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
-    }
-
     public List<Album> getAlbums() {
         return albums;
     }
@@ -97,8 +81,6 @@ public class Band {
     public void setMembers(List<Member> members) {
         this.members = members;
     }
-
-    public void addSong(Song song) {this.songs.add(song);}
 
     public void addMember(Member member) {this.members.add(member);}
 
