@@ -6,7 +6,7 @@ I initially started this project to create an API of my favourite bands. After s
 This was a chance to look at Java/Spring again and to look at using Docker and AWS to host it.
 
 There are 4 different routes available:
-* [All](http://3.129.7.160:8080/bands)
-* [Members](http://3.129.7.160:8080/members)
-* [Albums](http://3.129.7.160:8080/albums)
-* [Songs](http://3.129.7.160:8080/songs)
+* [All](https://machine-head-api.herokuapp.com/bands)
+* [Members](https://machine-head-api.herokuapp.com/members)
+* [Albums](https://machine-head-api.herokuapp.com/albums)
+* [Songs](https://machine-head-api.herokuapp.com/songs)
