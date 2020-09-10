@@ -293,7 +293,7 @@ public class DataLoader implements ApplicationRunner {
         Song farewellToArms =  new Song("A Farewell to Arms", 10.13, blackening);
         songRepository.save(farewellToArms);
 
-        Song iAmHell = new Song("I Am Hell (Sonata in C#", 8.25, untoTheLocust);
+        Song iAmHell = new Song("I Am Hell (Sonata in C#)", 8.25, untoTheLocust);
         songRepository.save(iAmHell);
 
         Song beStillAndKnow = new Song("Be Still and Know", 5.43, untoTheLocust);
